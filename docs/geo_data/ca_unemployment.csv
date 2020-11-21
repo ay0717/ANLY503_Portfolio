@@ -1,0 +1,60 @@
+FIPS,State,County,Area_name,Unemployment_rate_2008,Unemployment_rate_2012,Unemployment_rate_2016
+06000,CA,California,California,7.3,10.4,5.5
+06001,CA,Alameda County,"Alameda County, CA",6.2,8.7,4.3
+06003,CA,Alpine County,"Alpine County, CA",10.5,11.2,6.3
+06005,CA,Amador County,"Amador County, CA",7.7,12.3,5.9
+06007,CA,Butte County,"Butte County, CA",8.5,12.2,6.6
+06009,CA,Calaveras County,"Calaveras County, CA",8.7,12.4,5.7
+06011,CA,Colusa County,"Colusa County, CA",13.8,20.7,15.6
+06013,CA,Contra Costa County,"Contra Costa County, CA",6.2,8.9,4.5
+06015,CA,Del Norte County,"Del Norte County, CA",8.8,13.5,7.5
+06017,CA,El Dorado County,"El Dorado County, CA",7.0,10.2,5.1
+06019,CA,Fresno County,"Fresno County, CA",10.6,15.1,9.5
+06021,CA,Glenn County,"Glenn County, CA",10.5,14.2,8.3
+06023,CA,Humboldt County,"Humboldt County, CA",7.3,9.6,4.9
+06025,CA,Imperial County,"Imperial County, CA",22.6,27.4,24.1
+06027,CA,Inyo County,"Inyo County, CA",6.6,9.1,5.3
+06029,CA,Kern County,"Kern County, CA",9.8,13.1,10.4
+06031,CA,Kings County,"Kings County, CA",10.6,14.9,10.0
+06033,CA,Lake County,"Lake County, CA",10.7,12.8,6.7
+06035,CA,Lassen County,"Lassen County, CA",9.6,12.5,6.9
+06037,CA,Los Angeles County,"Los Angeles County, CA",7.6,10.9,5.3
+06039,CA,Madera County,"Madera County, CA",9.5,14.4,9.2
+06041,CA,Marin County,"Marin County, CA",4.7,6.3,3.3
+06043,CA,Mariposa County,"Mariposa County, CA",7.5,12.2,6.9
+06045,CA,Mendocino County,"Mendocino County, CA",6.9,10.0,5.3
+06047,CA,Merced County,"Merced County, CA",12.6,16.3,10.6
+06049,CA,Modoc County,"Modoc County, CA",9.7,14.4,7.8
+06051,CA,Mono County,"Mono County, CA",5.9,10.3,5.4
+06053,CA,Monterey County,"Monterey County, CA",8.5,11.6,7.7
+06055,CA,Napa County,"Napa County, CA",5.1,8.4,4.3
+06057,CA,Nevada County,"Nevada County, CA",6.6,9.7,4.8
+06059,CA,Orange County,"Orange County, CA",5.3,7.9,4.0
+06061,CA,Placer County,"Placer County, CA",6.5,9.4,4.5
+06063,CA,Plumas County,"Plumas County, CA",10.6,16.1,9.7
+06065,CA,Riverside County,"Riverside County, CA",8.6,11.6,6.1
+06067,CA,Sacramento County,"Sacramento County, CA",7.2,10.5,5.4
+06069,CA,San Benito County,"San Benito County, CA",9.7,13.0,6.7
+06071,CA,San Bernardino County,"San Bernardino County, CA",8.0,11.4,5.8
+06073,CA,San Diego County,"San Diego County, CA",6.0,9.1,4.7
+06075,CA,San Francisco County/city,"San Francisco County/city, CA",5.3,6.8,3.3
+06077,CA,San Joaquin County,"San Joaquin County, CA",10.4,14.4,8.1
+06079,CA,San Luis Obispo County,"San Luis Obispo County, CA",5.8,8.2,4.3
+06081,CA,San Mateo County,"San Mateo County, CA",4.9,6.4,3.0
+06083,CA,Santa Barbara County,"Santa Barbara County, CA",5.5,8.4,5.1
+06085,CA,Santa Clara County,"Santa Clara County, CA",6.0,7.9,3.8
+06087,CA,Santa Cruz County,"Santa Cruz County, CA",7.4,11.8,7.0
+06089,CA,Shasta County,"Shasta County, CA",10.1,14.2,7.0
+06091,CA,Sierra County,"Sierra County, CA",10.6,14.4,7.6
+06093,CA,Siskiyou County,"Siskiyou County, CA",10.2,15.6,8.5
+06095,CA,Solano County,"Solano County, CA",6.9,10.7,5.5
+06097,CA,Sonoma County,"Sonoma County, CA",5.8,8.9,4.0
+06099,CA,Stanislaus County,"Stanislaus County, CA",11.1,14.9,8.6
+06101,CA,Sutter County,"Sutter County, CA",12.4,16.8,9.7
+06103,CA,Tehama County,"Tehama County, CA",9.2,13.7,7.1
+06105,CA,Trinity County,"Trinity County, CA",12.8,14.6,7.1
+06107,CA,Tulare County,"Tulare County, CA",10.8,16.2,11.2
+06109,CA,Tuolumne County,"Tuolumne County, CA",8.0,13.0,6.2
+06111,CA,Ventura County,"Ventura County, CA",6.3,9.1,5.2
+06113,CA,Yolo County,"Yolo County, CA",7.4,10.6,5.9
+06115,CA,Yuba County,"Yuba County, CA",11.9,15.4,8.6

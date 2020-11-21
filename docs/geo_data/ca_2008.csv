@@ -1,0 +1,59 @@
+Year,State,State_Abb,County,FIPS,Percentage_Vote_for_Republican,party
+2008,California,CA,Alameda,6001.0,19.25,republican
+2008,California,CA,Alpine,6003.0,36.42,republican
+2008,California,CA,Amador,6005.0,56.15,republican
+2008,California,CA,Butte,6007.0,47.5,republican
+2008,California,CA,Calaveras,6009.0,55.07,republican
+2008,California,CA,Colusa,6011.0,58.07,republican
+2008,California,CA,Contra Costa,6013.0,30.21,republican
+2008,California,CA,Del Norte,6015.0,52.11,republican
+2008,California,CA,El Dorado,6017.0,54.14,republican
+2008,California,CA,Fresno,6019.0,48.12,republican
+2008,California,CA,Glenn,6021.0,59.82,republican
+2008,California,CA,Humboldt,6023.0,34.07,republican
+2008,California,CA,Imperial,6025.0,36.08,republican
+2008,California,CA,Inyo,6027.0,53.01,republican
+2008,California,CA,Kern,6029.0,57.89,republican
+2008,California,CA,Kings,6031.0,56.14,republican
+2008,California,CA,Lake,6033.0,38.9,republican
+2008,California,CA,Lassen,6035.0,65.72,republican
+2008,California,CA,Los Angeles,6037.0,28.82,republican
+2008,California,CA,Madera,6039.0,55.68,republican
+2008,California,CA,Marin,6041.0,20.25,republican
+2008,California,CA,Mariposa,6043.0,54.9,republican
+2008,California,CA,Mendocino,6045.0,26.79,republican
+2008,California,CA,Merced,6047.0,44.98,republican
+2008,California,CA,Modoc,6049.0,67.44,republican
+2008,California,CA,Mono,6051.0,42.25,republican
+2008,California,CA,Monterey,6053.0,29.89,republican
+2008,California,CA,Napa,6055.0,32.67,republican
+2008,California,CA,Nevada,6057.0,46.12,republican
+2008,California,CA,Orange,6059.0,50.19,republican
+2008,California,CA,Placer,6061.0,54.68,republican
+2008,California,CA,Plumas,6063.0,54.72,republican
+2008,California,CA,Riverside,6065.0,47.9,republican
+2008,California,CA,Sacramento,6067.0,39.47,republican
+2008,California,CA,San Benito,6069.0,37.68,republican
+2008,California,CA,San Bernardino,6071.0,45.75,republican
+2008,California,CA,San Diego,6073.0,43.95,republican
+2008,California,CA,San Francisco,6075.0,13.66,republican
+2008,California,CA,San Joaquin,6077.0,43.76,republican
+2008,California,CA,San Luis Obispo,6079.0,46.03,republican
+2008,California,CA,San Mateo,6081.0,24.75,republican
+2008,California,CA,Santa Barbara,6083.0,37.5,republican
+2008,California,CA,Santa Clara,6085.0,28.55,republican
+2008,California,CA,Santa Cruz,6087.0,19.8,republican
+2008,California,CA,Shasta,6089.0,61.68,republican
+2008,California,CA,Sierra,6091.0,58.16,republican
+2008,California,CA,Siskiyou,6093.0,53.66,republican
+2008,California,CA,Solano,6095.0,34.81,republican
+2008,California,CA,Sonoma,6097.0,24.04,republican
+2008,California,CA,Stanislaus,6099.0,48.13,republican
+2008,California,CA,Sutter,6101.0,57.41,republican
+2008,California,CA,Tehama,6103.0,60.74,republican
+2008,California,CA,Trinity,6105.0,46.12,republican
+2008,California,CA,Tulare,6107.0,56.81,republican
+2008,California,CA,Tuolumne,6109.0,55.14,republican
+2008,California,CA,Ventura,6111.0,42.92,republican
+2008,California,CA,Yolo,6113.0,30.84,republican
+2008,California,CA,Yuba,6115.0,56.1,republican

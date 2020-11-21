@@ -1,0 +1,59 @@
+Year,State,State_Abb,County,FIPS,Percentage_Vote_for_Republican,party
+2012,California,CA,Alameda,6001.0,18.16,republican
+2012,California,CA,Alpine,6003.0,36.14,republican
+2012,California,CA,Amador,6005.0,58.25,republican
+2012,California,CA,Butte,6007.0,49.01,republican
+2012,California,CA,Calaveras,6009.0,56.76,republican
+2012,California,CA,Colusa,6011.0,59.68,republican
+2012,California,CA,Contra Costa,6013.0,31.15,republican
+2012,California,CA,Del Norte,6015.0,52.61,republican
+2012,California,CA,El Dorado,6017.0,57.42,republican
+2012,California,CA,Fresno,6019.0,48.1,republican
+2012,California,CA,Glenn,6021.0,61.14,republican
+2012,California,CA,Humboldt,6023.0,32.76,republican
+2012,California,CA,Imperial,6025.0,33.13,republican
+2012,California,CA,Inyo,6027.0,54.01,republican
+2012,California,CA,Kern,6029.0,57.17,republican
+2012,California,CA,Kings,6031.0,56.24,republican
+2012,California,CA,Lake,6033.0,39.33,republican
+2012,California,CA,Lassen,6035.0,68.3,republican
+2012,California,CA,Los Angeles,6037.0,27.83,republican
+2012,California,CA,Madera,6039.0,57.32,republican
+2012,California,CA,Marin,6041.0,22.96,republican
+2012,California,CA,Mariposa,6043.0,57.11,republican
+2012,California,CA,Mendocino,6045.0,27.58,republican
+2012,California,CA,Merced,6047.0,44.44,republican
+2012,California,CA,Modoc,6049.0,69.67,republican
+2012,California,CA,Mono,6051.0,44.1,republican
+2012,California,CA,Monterey,6053.0,30.27,republican
+2012,California,CA,Napa,6055.0,34.28,republican
+2012,California,CA,Nevada,6057.0,48.35,republican
+2012,California,CA,Orange,6059.0,51.87,republican
+2012,California,CA,Placer,6061.0,58.32,republican
+2012,California,CA,Plumas,6063.0,56.94,republican
+2012,California,CA,Riverside,6065.0,48.06,republican
+2012,California,CA,Sacramento,6067.0,39.19,republican
+2012,California,CA,San Benito,6069.0,38.56,republican
+2012,California,CA,San Bernardino,6071.0,45.12,republican
+2012,California,CA,San Diego,6073.0,45.02,republican
+2012,California,CA,San Francisco,6075.0,13.03,republican
+2012,California,CA,San Joaquin,6077.0,42.05,republican
+2012,California,CA,San Luis Obispo,6079.0,47.73,republican
+2012,California,CA,San Mateo,6081.0,25.46,republican
+2012,California,CA,Santa Barbara,6083.0,39.56,republican
+2012,California,CA,Santa Clara,6085.0,27.19,republican
+2012,California,CA,Santa Cruz,6087.0,20.02,republican
+2012,California,CA,Shasta,6089.0,62.97,republican
+2012,California,CA,Sierra,6091.0,58.83,republican
+2012,California,CA,Siskiyou,6093.0,55.64,republican
+2012,California,CA,Solano,6095.0,34.17,republican
+2012,California,CA,Sonoma,6097.0,25.3,republican
+2012,California,CA,Stanislaus,6099.0,47.28,republican
+2012,California,CA,Sutter,6101.0,58.41,republican
+2012,California,CA,Tehama,6103.0,61.95,republican
+2012,California,CA,Trinity,6105.0,47.87,republican
+2012,California,CA,Tulare,6107.0,56.34,republican
+2012,California,CA,Tuolumne,6109.0,56.22,republican
+2012,California,CA,Ventura,6111.0,45.25,republican
+2012,California,CA,Yolo,6113.0,31.38,republican
+2012,California,CA,Yuba,6115.0,57.23,republican

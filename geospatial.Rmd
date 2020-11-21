@@ -1,0 +1,727 @@
+---
+title: "geospatial"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE)
+```
+
+
+```{r}
+library(leaflet)
+library(sp)
+library(mapproj)
+library(maps)
+library(mapdata)
+library(maptools)
+library(htmlwidgets)
+library(magrittr)
+library(XML)
+library(plyr)
+library(rgdal)
+library(WDI)
+library(raster)
+library(htmltools)
+library(stringr)
+library(tidyr)
+library(tigris)
+library(rgeos)
+library(ggplot2)
+library(scales)
+library(dplyr)
+```
+
+
+```{r}
+Unemployment = read.csv('geo_data/texas_unemployment.csv')
+Unemployment = Unemployment[complete.cases(Unemployment),]
+Unemployment =  Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
+Unemployment = separate(Unemployment, Area_name, into = c("County", "State"), sep = ", ")
+Unemployment$Unemployment_rate_2008 = round(Unemployment$Unemployment_rate_2008, 1)
+
+colnames(Unemployment)[3] = "GEOID"
+
+Unemployment$GEOID = formatC(Unemployment$GEOID, width = 5, format = "d", flag = "0")
+Unemployment$Unemployment_rate_2008 = as.numeric(as.character(Unemployment$Unemployment_rate_2008))
+
+us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
+head(us.map)
+
+us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
+                                        "64", "68", "70", "74"),]
+us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76",
+                                        "95", "79"),]
+
+unemploymentmap = merge(us.map, Unemployment, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>Texas Unemployment Rate 2008: </strong>",
+                    unemploymentmap$Unemployment_rate_2008)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+texas_un_2008 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -105, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2008), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>Texas Unemployment Rate 2012: </strong>",
+                    unemploymentmap$Unemployment_rate_2012)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+texas_un_2012 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -105, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2012), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>Texas Unemployment Rate 2016: </strong>",
+                    unemploymentmap$Unemployment_rate_2016)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+texas_un_2016 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -105, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2016), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+vote = read.csv('geo_data/texas_2008.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
+head(us.map)
+
+us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
+                                        "64", "68", "70", "74"),]
+us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76",
+                                        "95", "79"),]
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>Texas Percentage Vote for Republican 2008: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+texas_vote_2008 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -105, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+vote = read.csv('geo_data/texas_2012.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>Texas Percentage Vote for Republican 2012: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+texas_vote_2012 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -105, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+vote = read.csv('geo_data/texas_2016.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>Texas Percentage Vote for Republican 2016: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+texas_vote_2016 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -105, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+
+
+
+```{r}
+Unemployment = read.csv('geo_data/ca_unemployment.csv')
+Unemployment = Unemployment[complete.cases(Unemployment),]
+Unemployment =  Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
+Unemployment = separate(Unemployment, Area_name, into = c("County", "State"), sep = ", ")
+Unemployment$Unemployment_rate_2008 = round(Unemployment$Unemployment_rate_2008, 1)
+
+colnames(Unemployment)[3] = "GEOID"
+
+Unemployment$GEOID = formatC(Unemployment$GEOID, width = 5, format = "d", flag = "0")
+Unemployment$Unemployment_rate_2008 = as.numeric(as.character(Unemployment$Unemployment_rate_2008))
+
+us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
+head(us.map)
+
+us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
+                                        "64", "68", "70", "74"),]
+us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76",
+                                        "95", "79"),]
+
+unemploymentmap = merge(us.map, Unemployment, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>California Unemployment Rate 2008: </strong>",
+                    unemploymentmap$Unemployment_rate_2008)
+
+pal = colorQuantile("Blues", NULL, n = 9)
+
+ca_un_2008 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -115, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2008), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>California Unemployment Rate 2012: </strong>",
+                    unemploymentmap$Unemployment_rate_2012)
+
+ca_un_2012 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -115, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2012), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>California Unemployment Rate 2016: </strong>",
+                    unemploymentmap$Unemployment_rate_2016)
+
+ca_un_2016 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -115, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2016), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+
+
+```{r}
+vote = read.csv('geo_data/ca_2008.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
+head(us.map)
+
+us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
+                                        "64", "68", "70", "74"),]
+us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76",
+                                        "95", "79"),]
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>California Percentage Vote for Republican 2008: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+ca_vote_2008 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -115, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+vote = read.csv('geo_data/ca_2012.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>California Percentage Vote for Republican 2012: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+ca_vote_2012 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -115, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+vote = read.csv('geo_data/ca_2016.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>California Percentage Vote for Republican 2016: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+ca_vote_2016 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -120, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+
+
+```{r}
+Unemployment = read.csv('geo_data/pen_unemployment.csv')
+Unemployment = Unemployment[complete.cases(Unemployment),]
+Unemployment = Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
+Unemployment = separate(Unemployment, Area_name, into = c("County", "State"), sep = ", ")
+Unemployment$Unemployment_rate_2008 = round(Unemployment$Unemployment_rate_2008, 1)
+
+colnames(Unemployment)[3] = "GEOID"
+
+Unemployment$GEOID = formatC(Unemployment$GEOID, width = 5, format = "d", flag = "0")
+Unemployment$Unemployment_rate_2008 = as.numeric(as.character(Unemployment$Unemployment_rate_2008))
+
+us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
+head(us.map)
+
+us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
+                                        "64", "68", "70", "74"),]
+us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76",
+                                        "95", "79"),]
+
+unemploymentmap = merge(us.map, Unemployment, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>Pennsylvania Unemployment Rate 2008: </strong>",
+                    unemploymentmap$Unemployment_rate_2008)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+pen_un_2008 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -80, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2008), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>Pennsylvania Unemployment Rate 2012: </strong>",
+                    unemploymentmap$Unemployment_rate_2012)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+pen_un_2012 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -80, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2012), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    unemploymentmap$County,
+                    "<br><strong>State: </strong>", 
+                    unemploymentmap$State,
+                    "<br><strong>Pennsylvania Unemployment Rate 2016: </strong>",
+                    unemploymentmap$Unemployment_rate_2016)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+pen_un_2016 <- leaflet(data = unemploymentmap) %>%
+  addTiles() %>%
+  setView(lng = -80, lat = 40, zoom = 4) %>% 
+  addPolygons(data = unemploymentmap,
+              fillColor = ~pal(Unemployment_rate_2016), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="Unemployment") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+```{r}
+vote = read.csv('geo_data/pen_2008.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
+head(us.map)
+
+us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
+                                        "64", "68", "70", "74"),]
+us.map <- us.map[!us.map$STATEFP %in% c("81", "84", "86", "87", "89", "71", "76",
+                                        "95", "79"),]
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>Pennsylvania Percentage Vote for Republican 2008: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+pal = colorQuantile("Greens", NULL, n = 9)
+
+pen_vote_2008 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -80, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+vote = read.csv('geo_data/pen_2012.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>Pennsylvania Percentage Vote for Republican 2012: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+pen_vote_2012 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -80, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+vote = read.csv('geo_data/pen_2016.csv')
+vote = vote[complete.cases(vote),]
+vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
+
+colnames(vote)[3] = "GEOID"
+
+vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
+
+votemap = merge(us.map, vote, by = c("GEOID"))
+
+popup_dat <- paste0("<strong>County: </strong>", 
+                    votemap$County,
+                    "<br><strong>State: </strong>", 
+                    votemap$State_Abb,
+                    "<br><strong>Pennsylvania Percentage Vote for Republican 2016: </strong>", 
+                    votemap$Percentage_Vote_for_Republican)
+
+pen_vote_2016 <- leaflet(data = votemap) %>%
+  addTiles() %>%
+  setView(lng = -80, lat = 40, zoom = 4) %>% 
+  addPolygons(data = votemap,
+              fillColor = ~pal(Percentage_Vote_for_Republican), 
+              fillOpacity = 0.8, 
+              color = "#5BACF1", 
+              weight = 1,
+              popup = popup_dat,
+              group="vote") %>% 
+  addLayersControl(
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
+
+
+```{r}
+leaflet_grid <- 
+  tagList(
+    h2("Unemployment and Presenditial Voting in Texas"),
+    tags$table(width = "100%",
+      tags$tr(
+        tags$td(texas_un_2008),
+        tags$td(texas_vote_2008)
+      ),
+      tags$tr(
+        tags$td(texas_un_2012),
+        tags$td(texas_vote_2012)
+      ),
+      tags$tr(
+        tags$td(texas_un_2016),
+        tags$td(texas_vote_2016)
+      )
+    ),
+    h2("Unemployment and Presenditial Voting in California"),
+    tags$table(width = "100%",
+      tags$tr(
+        tags$td(ca_un_2008),
+        tags$td(ca_vote_2008)
+      ),
+      tags$tr(
+        tags$td(ca_un_2012),
+        tags$td(ca_vote_2012)
+      ),
+      tags$tr(
+        tags$td(ca_un_2016),
+        tags$td(ca_vote_2016)
+      )
+    ),
+    h2("Unemployment and Presenditial Voting in Pennsylvania"),
+    tags$table(width = "100%",
+      tags$tr(
+        tags$td(pen_un_2008),
+        tags$td(pen_vote_2008)
+      ),
+      tags$tr(
+        tags$td(pen_un_2012),
+        tags$td(pen_vote_2012)
+      ),
+      tags$tr(
+        tags$td(pen_un_2016),
+        tags$td(pen_vote_2016)
+      )
+    )
+  )
+browsable(leaflet_grid)
+```
+
+
+
+
+
+
