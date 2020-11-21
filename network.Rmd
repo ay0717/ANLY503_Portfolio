@@ -1,5 +1,5 @@
 ---
-title: "A7 Network"
+title: "A6"
 output: html_document
 ---
 
@@ -8,8 +8,8 @@ knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
 ```
 
 ```{R}
-library(reticulate)
-use_condaenv("r-reticulate")
+#library(reticulate)
+#use_condaenv("r-reticulate")
 ```
 
 

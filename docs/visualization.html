@@ -11,7 +11,7 @@
 
 
 
-<title>A5 Data Vis</title>
+<title>Static Visualization</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -309,11 +309,12 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">A5 Data Vis</h1>
+<h1 class="title toc-ignore">Static Visualization</h1>
 
 </div>
 
 
+<p>This assignment is to build some visualizations to analyze the bank transactions datasets.</p>
 <p><img src="visualization_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <pre><code>## sys:1: DtypeWarning: Columns (6) have mixed types.Specify dtype option on import or set low_memory=False.</code></pre>
 <pre><code>## /Users/shrewdli/Library/r-miniconda/envs/r-reticulate/bin/python:1: SettingWithCopyWarning: 
@@ -321,29 +322,25 @@ $(document).ready(function () {
 ## Try using .loc[row_indexer,col_indexer] = value instead
 ## 
 ## See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy</code></pre>
-<pre><code>## 45 % of all the accounts have a small loan (&lt;= 100,000)</code></pre>
-<pre><code>## 51 % of all the accounts have a medium loan (between 100,000 and 300,000)</code></pre>
-<pre><code>## 4 % of all the accounts have a large loan (&gt; 300,000)</code></pre>
-<pre><code>## The average balance of accounts with loan &lt;= 100,000 is  47068</code></pre>
-<pre><code>## The average balance of accounts with loan between 100,000 and 300,000 is  55642</code></pre>
-<pre><code>## The average balance of accounts with loan &gt; 300,000 is  45382</code></pre>
+<p>By analyzing the data, we find that 45% of all the accounts have a small loan (&lt;= 100,000). 51% of all the accounts have a medium loan (between 100,000 and 300,000), 4 % of all the accounts have a large loan (&gt; 300,000). The average balance of accounts with loan &lt;= 100,000 is 47068. The average balance of accounts with loan between 100,000 and 300,000 is 55642. The average balance of accounts with loan &gt; 300,000 is 45382.</p>
 <pre><code>## (-0.05500000000000001, 0.05500000000000001, -0.05500000000000001, 0.05500000000000001)</code></pre>
 <pre><code>## [None, None, None, None, None, None]</code></pre>
 <pre><code>## [None, None, None, None, None, None, None, None, None, None, None, None]</code></pre>
 <pre><code>## Text(0.5, 1.0, &#39;Distribution of Loans&#39;)</code></pre>
-<p><img src="visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre><code>## /Users/shrewdli/Library/r-miniconda/envs/r-reticulate/bin/python:1: SettingWithCopyWarning: 
 ## A value is trying to be set on a copy of a slice from a DataFrame.
 ## Try using .loc[row_indexer,col_indexer] = value instead
 ## 
 ## See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy</code></pre>
 <pre><code>## &lt;BarContainer object of 6 artists&gt;</code></pre>
-<pre><code>## ([&lt;matplotlib.axis.XTick object at 0x7ff08d381e48&gt;, &lt;matplotlib.axis.XTick object at 0x7ff08d381a20&gt;, &lt;matplotlib.axis.XTick object at 0x7ff08d381668&gt;, &lt;matplotlib.axis.XTick object at 0x7ff08f84f630&gt;, &lt;matplotlib.axis.XTick object at 0x7ff08f84fac8&gt;, &lt;matplotlib.axis.XTick object at 0x7ff08f84ff60&gt;], [Text(0, 0, &#39;100-200&#39;), Text(1, 0, &#39;200-300&#39;), Text(2, 0, &#39;300-400&#39;), Text(3, 0, &#39;400-500&#39;), Text(4, 0, &#39;500-600&#39;), Text(5, 0, &#39;600-700&#39;)])</code></pre>
+<pre><code>## ([&lt;matplotlib.axis.XTick object at 0x7f8b76765d30&gt;, &lt;matplotlib.axis.XTick object at 0x7f8b76765908&gt;, &lt;matplotlib.axis.XTick object at 0x7f8b76765550&gt;, &lt;matplotlib.axis.XTick object at 0x7f8b7661f4e0&gt;, &lt;matplotlib.axis.XTick object at 0x7f8b7661f978&gt;, &lt;matplotlib.axis.XTick object at 0x7f8b7661fe10&gt;], [Text(0, 0, &#39;100-200&#39;), Text(1, 0, &#39;200-300&#39;), Text(2, 0, &#39;300-400&#39;), Text(3, 0, &#39;400-500&#39;), Text(4, 0, &#39;500-600&#39;), Text(5, 0, &#39;600-700&#39;)])</code></pre>
 <pre><code>## (0.0, 20.0)</code></pre>
 <pre><code>## Text(0.5, 0, &#39;Difference in Dates between Account-open-date and Loan-created-date&#39;)</code></pre>
 <pre><code>## Text(0, 0.5, &#39;Number of Default Loans&#39;)</code></pre>
 <pre><code>## Text(0.5, 1.0, &#39;Loan Defaults Analysis on Dates&#39;)</code></pre>
-<p><img src="visualization_files/figure-html/unnamed-chunk-13-1.png" width="672" /> From the plot, it seems that loan default happen the most when the difference in date between account creation and loan creation is between 100 and 200 days, and the second highest range is between 300 and 400 days. The probability of loan default decreases as the difference in creation dates increase. The overall trend is that accounts that have a loan created within 200 days is subject to higher default rate, and accounts that have a loan created after 600 days is subject to the lowest default rate.</p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>From the plot, it seems that loan default happen the most when the difference in date between account creation and loan creation is between 100 and 200 days, and the second highest range is between 300 and 400 days. The probability of loan default decreases as the difference in creation dates increase. The overall trend is that accounts that have a loan created within 200 days is subject to higher default rate, and accounts that have a loan created after 600 days is subject to the lowest default rate.</p>
 <pre><code>## sys:1: DtypeWarning: Columns (6) have mixed types.Specify dtype option on import or set low_memory=False.</code></pre>
 <pre><code>##       account_id   id  date  type  ...  bank  account  method  category
 ## 4260        8261  675   675   675  ...   344      383     539       349
@@ -354,16 +351,16 @@ $(document).ready(function () {
 ## Try using .loc[row_indexer,col_indexer] = value instead
 ## 
 ## See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08f9188d0&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3b8e48&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3cb198&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3cb470&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3cb748&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3cba20&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3cbcf8&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d3cbfd0&gt;]</code></pre>
-<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7ff08d6b32e8&gt;]</code></pre>
-<pre><code>## &lt;matplotlib.legend.Legend object at 0x7ff08d6b3828&gt;</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b765f7710&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b765f7860&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b84e56a90&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b84e56d68&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b6445e080&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b6445e358&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b6445e630&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b6445e908&gt;]</code></pre>
+<pre><code>## [&lt;matplotlib.lines.Line2D object at 0x7f8b6445ebe0&gt;]</code></pre>
+<pre><code>## &lt;matplotlib.legend.Legend object at 0x7f8b6446d160&gt;</code></pre>
 <pre><code>## Text(0.5, 0, &#39;Year&#39;)</code></pre>
 <pre><code>## Text(0.5, 1.0, &#39;Behaviors of Account with the Highest Number of Transaction&#39;)</code></pre>
 <p>Account with ID 8261 has the most number of transactions. From the time series line plot, we observe that more amount of transactions are conducted via credit cards prior to 1994 and after 1997. Between 1994 and 1997, more amount of transactions are conducted via debit cards. In addition, most amount of transactions are for bank transfer.</p>
@@ -372,7 +369,7 @@ $(document).ready(function () {
 <pre><code>## [None, None, None, None]</code></pre>
 <pre><code>## [None, None, None, None, None, None, None, None]</code></pre>
 <pre><code>## Text(0.5, 1.0, &#39;Credit Cards and Credit Card Transactions&#39;)</code></pre>
-<p><img src="visualization_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>By observing the pie chart of the association between credit cards and credit card transactions of accounts, something worth noting is that even accounts with no credit cards still have credit card transactions associated with the account. This observation is counter-intuitive to my guess that accounts with no credit cards do not have any credit card transactions.</p>
 
 

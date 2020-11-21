@@ -1,5 +1,5 @@
 ---
-title: "A5 Data Vis"
+title: "Static Visualization"
 output: html_document
 ---
 
@@ -7,10 +7,11 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
 ```
 
+This assignment is to build some visualizations to analyze the bank transactions datasets. 
 
 ```{r}
-library(reshape)
-library(ggplot2)
+#library(reshape)
+#library(ggplot2)
 df = read.csv("data/clean.csv")
 account_id = df$account_id
 df = read.csv("data/clean.csv")
@@ -19,13 +20,6 @@ df = melt(df, id.vars="account_id")
 ggplot(data = df,
        aes(x = account_id, y = value, group = variable, color = variable)) +
 geom_line(size = 1) + ggtitle("Account Characteristics")
-```
-
-
-```{R}
-library(reticulate)
-use_python("/usr/local/bin/python")
-py_install(packages = "matplotlib")
 ```
 
 
@@ -58,14 +52,15 @@ df3['loan_type'] = df3.apply(loan_type, axis=1)
 ```{python}
 small_df = df3[df3['loan_type'] == 'small']
 small_loan = len(small_df)
-print(round(small_loan/len(df3)*100), "% of all the accounts have a small loan (<= 100,000)")
+#print(round(small_loan/len(df3)*100), "% of all the accounts have a small loan (<= 100,000)")
 medium_df = df3[df3['loan_type'] == 'medium']
 medium_loan = len(medium_df)
-print(round(medium_loan/len(df3)*100), "% of all the accounts have a medium loan (between 100,000 and 300,000)")
+#print(round(medium_loan/len(df3)*100), "% of all the accounts have a medium loan (between 100,000 and 300,000)")
 large_df = df3[df3['loan_type'] == 'large']
 large_loan = len(large_df)
-print(round(large_loan/len(df3)*100), "% of all the accounts have a large loan (> 300,000)")
+#print(round(large_loan/len(df3)*100), "% of all the accounts have a large loan (> 300,000)")
 ```
+
 ```{python}
 cards = small_df['credit_cards']
 S0, S1 = 0, 0
@@ -95,20 +90,22 @@ for c in cards:
 ```{python}
 balance = small_df['avg_balance']
 small_balance = int(sum(list(balance)) / len(list(balance)))
-print("The average balance of accounts with loan <= 100,000 is ", small_balance)
+#print("The average balance of accounts with loan <= 100,000 is ", small_balance)
 
 balance = medium_df['avg_balance']
 medium_balance = int(sum(list(balance)) / len(list(balance)))
-print("The average balance of accounts with loan between 100,000 and 300,000 is ", medium_balance)
+#print("The average balance of accounts with loan between 100,000 and 300,000 is ", medium_balance)
 
 balance = large_df['avg_balance']
 large_balance = int(sum(list(balance)) / len(list(balance)))
-print("The average balance of accounts with loan > 300,000 is ", large_balance)
+#print("The average balance of accounts with loan > 300,000 is ", large_balance)
 ```
+
+By analyzing the data, we find that 45% of all the accounts have a small loan (<= 100,000). 51% of all the accounts have a medium loan (between 100,000 and 300,000), 4 % of all the accounts have a large loan (> 300,000). The average balance of accounts with loan <= 100,000 is  47068. The average balance of accounts with loan between 100,000 and 300,000 is 55642. The average balance of accounts with loan > 300,000 is  45382. 
+
 
 ```{python}
 import matplotlib.pyplot as plt
-# Make data: I have 3 groups and 6 subgroups
 group_names=['Small Loan with Avg Balalnce of 47068', 'Medium Loan with Avg Balalnce of 55642', 'Large Loan with Avg Balance of 45382']
 subgroup_names=['No CC', 'Has CC', 'No CC', 'Has CC', 'No CC', 'Has CC']
 group_size=[small_loan, medium_loan, large_loan]
@@ -203,8 +200,8 @@ plt.ylabel('Number of Default Loans')
 plt.title('Loan Defaults Analysis on Dates')
 plt.show()
 ```
-From the plot, it seems that loan default happen the most when the difference in date between account creation and loan creation is between 100 and 200 days, and the second highest range is between 300 and 400 days. The probability of loan default decreases as the difference in creation dates increase. The overall trend is that accounts that have a loan created within 200 days is subject to higher default rate, and accounts that have a loan created after 600 days is subject to the lowest default rate. 
 
+From the plot, it seems that loan default happen the most when the difference in date between account creation and loan creation is between 100 and 200 days, and the second highest range is between 300 and 400 days. The probability of loan default decreases as the difference in creation dates increase. The overall trend is that accounts that have a loan created within 200 days is subject to higher default rate, and accounts that have a loan created after 600 days is subject to the lowest default rate. 
 
 
 ```{python}
@@ -320,7 +317,6 @@ plt.title('Behaviors of Account with the Highest Number of Transaction')
 ```
 
 Account with ID 8261 has the most number of transactions. From the time series line plot, we observe that more amount of transactions are conducted via credit cards prior to 1994 and after 1997. Between 1994 and 1997, more amount of transactions are conducted via debit cards. In addition, most amount of transactions are for bank transfer.
-
 
 
 ```{python}

@@ -3,43 +3,43 @@ title: "A6 Geospatial"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message = FALSE, error = FALSE)
-invisible(dev.off())
+```{r global-options, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
 ```
 
 
 ```{r}
-library(leaflet)
-library(sp)
-library(mapproj)
-library(maps)
-library(mapdata)
-library(maptools)
-library(htmlwidgets)
-library(magrittr)
-library(XML)
-library(plyr)
-library(rgdal)
-library(WDI)
-library(raster)
-library(htmltools)
-library(stringr)
-library(tidyr)
-library(tigris)
-library(rgeos)
-library(ggplot2)
-library(scales)
-library(dplyr)
+#library(leaflet)
+#library(sp)
+#library(mapproj)
+#library(maps)
+#library(mapdata)
+#library(maptools)
+#library(htmlwidgets)
+#library(magrittr)
+#library(XML)
+#library(plyr)
+#library(rgdal)
+#library(WDI)
+#library(raster)
+#library(htmltools)
+#library(stringr)
+#library(tidyr)
+#library(tigris)
+#library(rgeos)
+#library(ggplot2)
+#library(scales)
+#library(dplyr)
 ```
 
+This assignment is to visualize historical US election data and unemployment rates across US counties using choropleths. The following choropleths are created to visualize the percentage of the vote received for Republican candidate for president and the unemployment rate for the years of 2008, 2012 and 2016.
 
 ```{r}
 Unemployment = read.csv('geo_data/texas_unemployment.csv')
 Unemployment = Unemployment[complete.cases(Unemployment),]
 Unemployment =  Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
 Unemployment = separate(Unemployment, Area_name, into = c("County", "State"), sep = ", ")
-Unemployment$Unemployment_rate_2008 = round(Unemployment$Unemployment_rate_2008, 1)
+Unemployment$Unemployment_rate_2008 = #round(Unemployment$Unemployment_rate_2008, 1)
 
 colnames(Unemployment)[3] = "GEOID"
 
@@ -47,7 +47,7 @@ Unemployment$GEOID = formatC(Unemployment$GEOID, width = 5, format = "d", flag =
 Unemployment$Unemployment_rate_2008 = as.numeric(as.character(Unemployment$Unemployment_rate_2008))
 
 us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
-head(us.map)
+#head(us.map)
 
 us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
                                         "64", "68", "70", "74"),]
@@ -142,7 +142,7 @@ colnames(vote)[3] = "GEOID"
 vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
 
 us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
-head(us.map)
+#head(us.map)
 
 us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
                                         "64", "68", "70", "74"),]
@@ -249,8 +249,6 @@ texas_vote_2016 <- leaflet(data = votemap) %>%
 
 
 
-
-
 ```{r}
 Unemployment = read.csv('geo_data/ca_unemployment.csv')
 Unemployment = Unemployment[complete.cases(Unemployment),]
@@ -264,7 +262,7 @@ Unemployment$GEOID = formatC(Unemployment$GEOID, width = 5, format = "d", flag =
 Unemployment$Unemployment_rate_2008 = as.numeric(as.character(Unemployment$Unemployment_rate_2008))
 
 us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
-head(us.map)
+#head(us.map)
 
 us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
                                         "64", "68", "70", "74"),]
@@ -357,7 +355,7 @@ colnames(vote)[3] = "GEOID"
 vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
 
 us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
-head(us.map)
+#head(us.map)
 
 us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
                                         "64", "68", "70", "74"),]
@@ -464,7 +462,7 @@ Unemployment = read.csv('geo_data/pen_unemployment.csv')
 Unemployment = Unemployment[complete.cases(Unemployment),]
 Unemployment = Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
 Unemployment = separate(Unemployment, Area_name, into = c("County", "State"), sep = ", ")
-Unemployment$Unemployment_rate_2008 = round(Unemployment$Unemployment_rate_2008, 1)
+Unemployment$Unemployment_rate_2008 = #round(Unemployment$Unemployment_rate_2008, 1)
 
 colnames(Unemployment)[3] = "GEOID"
 
@@ -472,7 +470,7 @@ Unemployment$GEOID = formatC(Unemployment$GEOID, width = 5, format = "d", flag =
 Unemployment$Unemployment_rate_2008 = as.numeric(as.character(Unemployment$Unemployment_rate_2008))
 
 us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
-head(us.map)
+#head(us.map)
 
 us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
                                         "64", "68", "70", "74"),]
@@ -567,7 +565,7 @@ colnames(vote)[3] = "GEOID"
 vote$GEOID = formatC(vote$GEOID, width = 5, format = "d", flag = "0")
 
 us.map <- readOGR(dsn = ".", layer = "cb_2016_us_county_20m", stringsAsFactors = FALSE)
-head(us.map)
+#head(us.map)
 
 us.map <- us.map[!us.map$STATEFP %in% c("02", "15", "72", "66", "78", "60", "69",
                                         "64", "68", "70", "74"),]
