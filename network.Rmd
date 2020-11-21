@@ -1,0 +1,203 @@
+---
+title: "A7 Network"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+```
+
+```{R}
+library(reticulate)
+use_condaenv("r-reticulate")
+```
+
+
+```{python}
+import pandas as pd
+import xlrd
+import matplotlib.pyplot as plt
+import numpy as np
+import networkx as nx
+import pylab
+```
+
+```{python}
+workbook = xlrd.open_workbook('State_to_State_Migrations_Table_2018.xls')
+worksheet = workbook.sheet_by_index(0)
+```
+
+```{python}
+states = []
+for i in range(11, 43):
+    tmp = str(worksheet.cell(i,0)).split(':')[1]
+    if tmp == "''":
+        continue
+    else:
+        states.append(tmp[1:-1].strip())
+for i in range(48, 78):
+    tmp = str(worksheet.cell(i,0)).split(':')[1]
+    if tmp == "''":
+        continue
+    else:
+        states.append(tmp[1:-1].strip())
+
+```
+
+```{python}
+new_york = []
+for i in range(11, 43):
+    tmp = str(worksheet.cell(i,80)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        new_york.append(0)
+    else:
+        new_york.append(int(float(tmp)))
+for i in range(48, 78):
+    tmp = str(worksheet.cell(i,80)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        new_york.append(0)
+    else:
+        new_york.append(int(float(tmp)))
+```
+
+```{python}
+texas = []
+for i in range(11, 43):
+    tmp = str(worksheet.cell(i,104)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        texas.append(0)
+    else:
+        texas.append(int(float(tmp)))
+for i in range(48, 78):
+    tmp = str(worksheet.cell(i,104)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        texas.append(0)
+    else:
+        texas.append(int(float(tmp)))
+```
+
+```{python}
+new_jersey = []
+for i in range(11, 43):
+    tmp = str(worksheet.cell(i,75)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        new_jersey.append(0)
+    else:
+        new_jersey.append(int(float(tmp)))
+for i in range(48, 78):
+    tmp = str(worksheet.cell(i,75)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        new_jersey.append(0)
+    else:
+        new_jersey.append(int(float(tmp)))
+```
+
+```{python}
+north_carolina = []
+for i in range(11, 43):
+    tmp = str(worksheet.cell(i,82)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        north_carolina.append(0)
+    else:
+        north_carolina.append(int(float(tmp)))
+for i in range(48, 78):
+    tmp = str(worksheet.cell(i,82)).split(':')[1]
+    if tmp == "''":
+        continue
+    elif tmp == "'N/A'":
+        north_carolina.append(0)
+    else:
+        north_carolina.append(int(float(tmp)))
+```
+
+```{python}
+source = ['New York' for i in range(52)]
+data = {'source': source, 'target': states, 'count': new_york}
+ny_df = pd.DataFrame(data) 
+ny_df = ny_df.sort_values('count', ascending=False)
+ny_df = ny_df.head(10)
+```
+
+```{python}
+source = ['Texas' for i in range(52)]
+data = {'source': source, 'target': states, 'count': texas}
+texas_df = pd.DataFrame(data) 
+texas_df = texas_df.sort_values('count', ascending=False)
+texas_df = texas_df.head(10)
+```
+
+```{python}
+source = ['New Jersey' for i in range(52)]
+data = {'source': source, 'target': states, 'count': new_jersey}
+nj_df = pd.DataFrame(data) 
+nj_df = nj_df.sort_values('count', ascending=False)
+nj_df = nj_df.head(10)
+```
+
+```{python}
+source = ['North Carolina' for i in range(52)]
+data = {'source': source, 'target': states, 'count': north_carolina}
+nc_df = pd.DataFrame(data) 
+nc_df = nc_df.sort_values('count', ascending=False)
+nc_df = nc_df.head(10)
+```
+
+```{python}
+df = pd.concat([ny_df, nj_df, texas_df, nc_df], ignore_index=True)
+```
+
+```{python}
+def add_color(row):
+    if row['source'] == 'New York':
+        return 'pink'
+    if row['source'] == 'Texas':
+        return 'lightgreen'
+    if row['source'] == 'New Jersey':
+        return 'grey'
+    else:
+        return 'skyblue'
+def set_edge(row):
+    return row['count']/10000
+```
+
+```{python}
+tmp = df
+tmp['color'] = df.apply(add_color, axis=1)
+tmp['width'] = df.apply(set_edge, axis=1)
+```
+
+```{python}
+G = nx.Graph()
+for index, row in tmp.iterrows():
+    G.add_edge(row['source'], row['target'], color=row['color'], weight=row['width'])
+    
+colors = nx.get_edge_attributes(G,'color').values()
+weights = nx.get_edge_attributes(G,'weight').values()
+
+pos = nx.circular_layout(G)
+plt.figure(figsize=(9,9))
+plt.title('State Migration Network')
+nx.draw(G, pos, 
+        edge_color=colors, 
+        width=list(weights),
+        with_labels=True,
+        node_color='white',
+       node_size = 1400,
+       font_size=8)
+plt.show()
+
+```

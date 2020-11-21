@@ -1,0 +1,395 @@
+---
+title: "A5 Data Vis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+```
+
+
+```{r}
+library(reshape)
+library(ggplot2)
+df = read.csv("data/clean.csv")
+account_id = df$account_id
+df = read.csv("data/clean.csv")
+df = melt(df, id.vars="account_id")
+
+ggplot(data = df,
+       aes(x = account_id, y = value, group = variable, color = variable)) +
+geom_line(size = 1) + ggtitle("Account Characteristics")
+```
+
+
+```{R}
+library(reticulate)
+use_python("/usr/local/bin/python")
+py_install(packages = "matplotlib")
+```
+
+
+```{python}
+import pandas as pd
+df1 = pd.read_csv("data/transactions.csv")
+df2 = pd.read_csv("data/accounts_analytical.csv")
+```
+
+```{python}
+def avg_balance(row):
+    return (row['max_balance'] + row['min_balance']) // 2
+    
+def loan_type(row):
+  if row['loan_amount'] <= 100000:
+      return 'small'
+  elif row['loan_amount'] >= 400000:
+      return 'large'
+  else:
+      return 'medium'
+```
+
+```{python}
+import numpy as np
+df3 = df2.dropna(axis=0, subset=['loan_amount', 'max_balance', 'min_balance'])
+df3['avg_balance'] = df3.apply(avg_balance, axis=1)
+df3['credit_cards'] = df3['credit_cards'].replace(np.nan, 0)
+df3['loan_type'] = df3.apply(loan_type, axis=1)
+```
+```{python}
+small_df = df3[df3['loan_type'] == 'small']
+small_loan = len(small_df)
+print(round(small_loan/len(df3)*100), "% of all the accounts have a small loan (<= 100,000)")
+medium_df = df3[df3['loan_type'] == 'medium']
+medium_loan = len(medium_df)
+print(round(medium_loan/len(df3)*100), "% of all the accounts have a medium loan (between 100,000 and 300,000)")
+large_df = df3[df3['loan_type'] == 'large']
+large_loan = len(large_df)
+print(round(large_loan/len(df3)*100), "% of all the accounts have a large loan (> 300,000)")
+```
+```{python}
+cards = small_df['credit_cards']
+S0, S1 = 0, 0
+for c in cards:
+    if c == 0:
+        S0 += 1
+    else:
+        S1 += 1
+        
+cards = medium_df['credit_cards']
+M0, M1 = 0, 0
+for c in cards:
+    if c == 0:
+        M0 += 1
+    else:
+        M1 += 1
+        
+cards = large_df['credit_cards']
+L0, L1 = 0, 0
+for c in cards:
+    if c == 0:
+        L0 += 1
+    else:
+        L1 += 1
+```
+
+```{python}
+balance = small_df['avg_balance']
+small_balance = int(sum(list(balance)) / len(list(balance)))
+print("The average balance of accounts with loan <= 100,000 is ", small_balance)
+
+balance = medium_df['avg_balance']
+medium_balance = int(sum(list(balance)) / len(list(balance)))
+print("The average balance of accounts with loan between 100,000 and 300,000 is ", medium_balance)
+
+balance = large_df['avg_balance']
+large_balance = int(sum(list(balance)) / len(list(balance)))
+print("The average balance of accounts with loan > 300,000 is ", large_balance)
+```
+
+```{python}
+import matplotlib.pyplot as plt
+# Make data: I have 3 groups and 6 subgroups
+group_names=['Small Loan with Avg Balalnce of 47068', 'Medium Loan with Avg Balalnce of 55642', 'Large Loan with Avg Balance of 45382']
+subgroup_names=['No CC', 'Has CC', 'No CC', 'Has CC', 'No CC', 'Has CC']
+group_size=[small_loan, medium_loan, large_loan]
+subgroup_size=[S0,S1,M0,M1,L0,L1]
+ 
+a, b, c=[plt.cm.Blues, plt.cm.Reds, plt.cm.Greens]
+fig, ax = plt.subplots()
+ax.axis('equal')
+mypie, _ = ax.pie(group_size, radius=1.1, labels=group_names, colors=[a(0.6), b(0.6), c(0.6)])
+plt.setp( mypie, width=0.3, edgecolor='white')
+ 
+mypie2, _ = ax.pie(subgroup_size, radius=1.1-0.3, labels=subgroup_names, labeldistance=0.7, colors=[a(0.5), a(0.3), b(0.5), b(0.3), c(0.6), c(0.3)])
+plt.setp( mypie2, width=0.4, edgecolor='white')
+plt.margins(0,0)
+
+plt.title("Distribution of Loans")
+plt.rcParams['font.size'] = 8
+plt.show()
+```
+
+
+```{python}
+import pandas as pd
+import numpy as np
+df = pd.read_csv("data/accounts_analytical.csv")
+df2 = df[['account_id', 'acct_creation_date', 'loan_date', 'loan_default']]
+df3 = df2.dropna(axis=0, subset=['loan_date'])
+df3['loan_date'] = df3['loan_date'].apply(pd.to_datetime)
+df3['acct_creation_date'] = df3['acct_creation_date'].apply(pd.to_datetime)
+df3['days'] = (df3['loan_date'] - df3['acct_creation_date']).dt.days
+df4 = df3[df3['loan_default'] == True]
+```
+
+```{python}
+def days_bin(row):
+    if row['days'] in range(100,200):
+        return 1
+    elif row['days'] in range(200,300):
+        return 2
+    elif row['days'] in range(300,400):
+        return 3
+    elif row['days'] in range(400,500):
+        return 4
+    elif row['days'] in range(500,600):
+        return 5
+    elif row['days'] in range(600,700):
+        return 6
+    else:
+        return 7
+df4['days_bin'] = df4.apply(days_bin, axis=1)
+
+```
+
+```{python}
+bins = list(df4['days_bin'])
+bin1 = 0
+bin2 = 0
+bin3 = 0
+bin4 = 0
+bin5 = 0
+bin6 = 0
+bin7 = 0
+for i in range(len(bins)):
+    if bins[i] == 1:
+        bin1 += 1
+    elif bins[i] == 2:
+        bin2 += 1
+    elif bins[i] == 3:
+        bin3 += 1
+    elif bins[i] == 4:
+        bin4 += 1
+    elif bins[i] == 5:
+        bin5 += 1
+    elif bins[i] == 6:
+        bin6 += 1
+    else:
+        bin7 += 1
+```
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.arange(6)
+data = [bin1, bin2, bin3, bin4, bin5, bin6]
+
+plt.bar(x, data, color='steelblue')
+plt.xticks(x, ('100-200', '200-300', '300-400', '400-500', '500-600', '600-700'))
+plt.ylim((0,20))
+plt.xlabel('Difference in Dates between Account-open-date and Loan-created-date')
+plt.ylabel('Number of Default Loans')
+plt.title('Loan Defaults Analysis on Dates')
+plt.show()
+```
+From the plot, it seems that loan default happen the most when the difference in date between account creation and loan creation is between 100 and 200 days, and the second highest range is between 300 and 400 days. The probability of loan default decreases as the difference in creation dates increase. The overall trend is that accounts that have a loan created within 200 days is subject to higher default rate, and accounts that have a loan created after 600 days is subject to the lowest default rate. 
+
+
+
+```{python}
+import pandas as pd
+import numpy as np
+df = pd.read_csv("data/transactions.csv")
+```
+
+```{python}
+df2 = df.groupby('account_id').count()
+df2 = df2.reset_index()
+df3 = df2[df2['id'] == max(list(df2['id']))]
+df3
+```
+
+```{python}
+df4 = df[df['account_id'] == 8261]
+df5 = df4.dropna(axis=0, subset=['type', 'amount', 'date'])
+```
+
+```{python}
+def set_credit(row):
+    if row['type'] == 'credit':
+        return row['amount']
+    else:
+        return 0
+def set_debit(row):
+    if row['type'] == 'debit':
+        return row['amount']
+    else:
+        return 0
+df5['credit'] = df5.apply(set_credit, axis=1)
+df5['debit'] = df5.apply(set_debit, axis=1)
+
+```
+
+```{python}
+def set_bank_transfer(row):
+    if row['method'] == 'bank transfer':
+        return row['amount']
+    else:
+        return 0
+def set_cash(row):
+    if row['method'] == 'cash':
+        return row['amount']
+    else:
+        return 0
+df5['bank_transfer'] = df5.apply(set_bank_transfer, axis=1)
+df5['cash'] = df5.apply(set_cash, axis=1)
+```
+
+```{python}
+def set_loan_payment(row):
+    if row['category'] == 'loan payment':
+        return row['amount']
+    else:
+        return 0
+def set_household_payment(row):
+    if row['category'] == 'household payment':
+        return row['amount']
+    else:
+        return 0
+def set_insurance_payment(row):
+    if row['category'] == 'insurance payment':
+        return row['amount']
+    else:
+        return 0
+def set_statement_charge(row):
+    if row['category'] == 'statement charge':
+        return row['amount']
+    else:
+        return 0
+def set_interest_credit(row):
+    if row['category'] == 'interest credit':
+        return row['amount']
+    else:
+        return 0
+df5['loan_payment'] = df5.apply(set_loan_payment, axis=1)
+df5['household_payment'] = df5.apply(set_household_payment, axis=1)
+df5['insurance_payment'] = df5.apply(set_insurance_payment, axis=1)
+df5['statement_charge'] = df5.apply(set_statement_charge, axis=1)
+df5['interest_credit'] = df5.apply(set_interest_credit, axis=1)
+```
+
+```{python}
+df6 = df5[['date', 'amount', 'credit', 'debit', 'bank_transfer', 'cash', 'loan_payment', 'household_payment', 
+          'insurance_payment', 'statement_charge', 'interest_credit']]
+dates = list(df6['date'])
+years = []
+for i in range(len(dates)):
+    years.append(int(dates[i].split('-')[0]))
+df6['year'] = years
+df7 = df6.groupby(['year']).sum()
+df7['year'] = [1993, 1994, 1995, 1996, 1997, 1998]
+```
+
+```{python}
+import matplotlib.pyplot as plt
+
+plt.plot('year', 'credit', data=df7, color='skyblue', linewidth=2)
+plt.plot('year', 'debit', data=df7, color='green', linewidth=2)
+plt.plot('year', 'bank_transfer', data=df7, color='black', linewidth=2)
+plt.plot('year', 'cash', data=df7, color='yellow', linewidth=2)
+plt.plot('year', 'loan_payment', data=df7, color='red', linewidth=2)
+plt.plot('year', 'household_payment', data=df7, color='purple', linewidth=2)
+plt.plot('year', 'insurance_payment', data=df7, color='violet', linewidth=2)
+plt.plot('year', 'statement_charge', data=df7, color='orange', linewidth=2)
+plt.plot('year', 'interest_credit', data=df7, color='blue', linewidth=2)
+
+plt.legend(loc='upper right', fontsize=5)
+plt.xlabel('Year')
+plt.title('Behaviors of Account with the Highest Number of Transaction')
+```
+
+Account with ID 8261 has the most number of transactions. From the time series line plot, we observe that more amount of transactions are conducted via credit cards prior to 1994 and after 1997. Between 1994 and 1997, more amount of transactions are conducted via debit cards. In addition, most amount of transactions are for bank transfer.
+
+
+
+```{python}
+import pandas as pd
+import numpy as np
+
+df1 = pd.read_csv("data/transactions.csv")
+df2 = pd.read_csv("data/accounts_analytical.csv")
+df2['has_cc'] = df2['credit_cards'].replace(np.nan, 0)
+```
+
+```{python}
+def has_credit_cards(row):
+    if row['has_cc'] == 0:
+        return False
+    else:
+        return True
+df2['has_credit_cards'] = df2.apply(has_credit_cards, axis=1)
+```
+
+```{python}
+df3 = df1[df1['type'] == 'credit']
+cc_transactions = set(list(df3['account_id']))
+def has_cc_transations(row):
+    if row['account_id'] in cc_transactions:
+        return True
+    else:
+        return False
+df2['cc_transations'] = df2.apply(has_cc_transations, axis=1)
+```
+
+```{python}
+has_cc = len(df2[df2['has_credit_cards'] == True])
+no_cc = len(df2[df2['has_credit_cards'] == False])
+cc_with_tran = len(df2[(df2['has_credit_cards'] == True) & (df2['cc_transations'] == True)])
+cc_wo_tran = len(df2[(df2['has_credit_cards'] == True) & (df2['cc_transations'] == False)])
+no_cc_with_tran = len(df2[(df2['has_credit_cards'] == False) & (df2['cc_transations'] == True)])
+no_cc_wo_tran = len(df2[(df2['has_credit_cards'] == False) & (df2['cc_transations'] == False)])
+```
+
+```{python}
+import matplotlib.pyplot as plt
+
+group_names=['Has Credit Cards', 'No Credit Card']
+subgroup_names=['Has CC Transactions', 'No', 'Has CC Transactions', 'No']
+group_size=[has_cc, no_cc]
+subgroup_size=[cc_with_tran, cc_wo_tran, no_cc_with_tran, no_cc_wo_tran]
+ 
+a, b =[plt.cm.Blues, plt.cm.Greens]
+ 
+fig, ax = plt.subplots()
+ax.axis('equal')
+mypie, _ = ax.pie(group_size, radius=1.2, labels=group_names, colors=[a(0.6), b(0.6)])
+plt.setp( mypie, width=0.3, edgecolor='white')
+ 
+mypie2, _ = ax.pie(subgroup_size, radius=1.2-0.3, labels=subgroup_names, labeldistance=0.7, colors=[a(0.5), a(0.3), b(0.5), b(0.3)])
+plt.setp( mypie2, width=0.4, edgecolor='white')
+plt.margins(0,0)
+
+plt.title("Credit Cards and Credit Card Transactions")
+plt.show()
+
+```
+By observing the pie chart of the association between credit cards and credit card transactions of accounts, something worth noting is that even accounts with no credit cards still have credit card transactions associated with the account. This observation is counter-intuitive to my guess that accounts with no credit cards do not have any credit card transactions. 
+
+
+
+
+
+
+
+

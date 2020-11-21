@@ -6,6 +6,10 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Geospatial"
+    - text: "A5 Data Vis"
+      href: visualization.html
+    - text: "A6 Geospatial"
       href: geospatial.html
+    - text: "A7 Network"
+      href: network.html
 output_dir: "docs"
