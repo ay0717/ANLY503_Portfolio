@@ -8,10 +8,11 @@ knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
 ```
 
 ```{R}
-#library(reticulate)
-#use_condaenv("r-reticulate")
+library(reticulate)
+use_condaenv("r-reticulate")
 ```
 
+This assignment is to visualize the flow of people between different states in the United States over the period of one year, using network graphs. In the following net work graph, we see the migration from New York, Texas, New Jersey and North Carolina as the origin states. The width of lines connecting the nodes represent the number of people moved to from the origin state to the source state in the year.
 
 ```{python}
 import pandas as pd
