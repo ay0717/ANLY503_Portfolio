@@ -6,10 +6,12 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "A5 Data Vis"
+    - text: "A5 Static Vis"
       href: visualization.html
     - text: "A6 Geospatial"
       href: geospatial.html
     - text: "A7 Network"
       href: network.html
+    - text: "Final Project"
+      href: https://ay0717.github.io/ANLY503-Final-Project/
 output_dir: "docs"

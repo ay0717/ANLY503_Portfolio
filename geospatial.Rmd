@@ -4,37 +4,37 @@ output: html_document
 ---
 
 ```{r global-options, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message=FALSE)
+knitr::opts_chunk$set(echo = FALSE, output='hide', cache=TRUE, warning=FALSE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, collapse=TRUE)
 ```
 
 
 ```{r}
-#library(leaflet)
-#library(sp)
-#library(mapproj)
-#library(maps)
-#library(mapdata)
-#library(maptools)
-#library(htmlwidgets)
-#library(magrittr)
-#library(XML)
-#library(plyr)
-#library(rgdal)
-#library(WDI)
-#library(raster)
-#library(htmltools)
-#library(stringr)
-#library(tidyr)
-#library(tigris)
-#library(rgeos)
-#library(ggplot2)
-#library(scales)
-#library(dplyr)
+library(leaflet)
+library(sp)
+library(mapproj)
+library(maps)
+library(mapdata)
+library(maptools)
+library(htmlwidgets)
+library(magrittr)
+library(XML)
+library(plyr)
+library(rgdal)
+library(WDI)
+library(raster)
+library(htmltools)
+library(stringr)
+library(tidyr)
+library(tigris)
+library(rgeos)
+library(ggplot2)
+library(scales)
+library(dplyr)
 ```
 
 This assignment is to visualize historical US election data and unemployment rates across US counties using choropleths. The following choropleths are created to visualize the percentage of the vote received for Republican candidate for president and the unemployment rate for the years of 2008, 2012 and 2016.
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 Unemployment = read.csv('geo_data/texas_unemployment.csv')
 Unemployment = Unemployment[complete.cases(Unemployment),]
 Unemployment =  Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
@@ -80,7 +80,7 @@ texas_un_2008 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 
 popup_dat <- paste0("<strong>County: </strong>", 
                     unemploymentmap$County,
@@ -106,7 +106,7 @@ texas_un_2012 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 
 popup_dat <- paste0("<strong>County: </strong>", 
                     unemploymentmap$County,
@@ -132,7 +132,7 @@ texas_un_2016 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/texas_2008.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -176,7 +176,7 @@ texas_vote_2008 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/texas_2012.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -212,7 +212,7 @@ texas_vote_2012 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, include=FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/texas_2016.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -249,7 +249,7 @@ texas_vote_2016 <- leaflet(data = votemap) %>%
 
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 Unemployment = read.csv('geo_data/ca_unemployment.csv')
 Unemployment = Unemployment[complete.cases(Unemployment),]
 Unemployment =  Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
@@ -295,7 +295,7 @@ ca_un_2008 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 
 popup_dat <- paste0("<strong>County: </strong>", 
                     unemploymentmap$County,
@@ -319,7 +319,7 @@ ca_un_2012 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 popup_dat <- paste0("<strong>County: </strong>", 
                     unemploymentmap$County,
                     "<br><strong>State: </strong>", 
@@ -344,8 +344,7 @@ ca_un_2016 <- leaflet(data = unemploymentmap) %>%
 
 
 
-
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/ca_2008.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -387,7 +386,7 @@ ca_vote_2008 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/ca_2012.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -421,7 +420,7 @@ ca_vote_2012 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE,  cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/ca_2016.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -457,7 +456,7 @@ ca_vote_2016 <- leaflet(data = votemap) %>%
 
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 Unemployment = read.csv('geo_data/pen_unemployment.csv')
 Unemployment = Unemployment[complete.cases(Unemployment),]
 Unemployment = Unemployment %>% select(Area_name, FIPS, Unemployment_rate_2008, Unemployment_rate_2012, Unemployment_rate_2016)
@@ -503,7 +502,7 @@ pen_un_2008 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 
 popup_dat <- paste0("<strong>County: </strong>", 
                     unemploymentmap$County,
@@ -529,7 +528,7 @@ pen_un_2012 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 
 popup_dat <- paste0("<strong>County: </strong>", 
                     unemploymentmap$County,
@@ -555,7 +554,7 @@ pen_un_2016 <- leaflet(data = unemploymentmap) %>%
   )
 ```
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/pen_2008.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -599,7 +598,7 @@ pen_vote_2008 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/pen_2012.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -633,7 +632,7 @@ pen_vote_2012 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE, include=FALSE}
 vote = read.csv('geo_data/pen_2016.csv')
 vote = vote[complete.cases(vote),]
 vote =  vote %>% select(State_Abb, County, FIPS, Percentage_Vote_for_Republican)
@@ -667,7 +666,7 @@ pen_vote_2016 <- leaflet(data = votemap) %>%
 ```
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE, cache=TRUE, message=FALSE, highlight=FALSE, comment=FALSE, error=FALSE}
 leaflet_grid <- 
   tagList(
     h2("Unemployment and Presenditial Voting in Texas"),
